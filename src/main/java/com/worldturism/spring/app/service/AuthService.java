@@ -78,7 +78,7 @@ public class AuthService {
 
 	private ProviderProfile buildProviderProfile(ProviderRegisterRequest request, AppUser user) {
 		if (request == null || isBlank(request.businessName())) {
-			throw new IllegalArgumentException("El registro de provider requiere el nombre del negocio.");
+			throw new IllegalArgumentException("El registro de prestador requiere el nombre del negocio.");
 		}
 
 		ProviderProfile profile = new ProviderProfile();

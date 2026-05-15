@@ -17,7 +17,10 @@ import java.time.Instant;
 @Entity
 @Table(
 		name = "reviews",
-		uniqueConstraints = @UniqueConstraint(name = "uq_review_booking", columnNames = "booking_id"))
+		uniqueConstraints = {
+				@UniqueConstraint(name = "uq_review_booking", columnNames = "booking_id"),
+				@UniqueConstraint(name = "uq_review_user_service", columnNames = {"user_id", "service_id"})
+		})
 public class Review {
 
 	@Id
@@ -42,7 +45,7 @@ public class Review {
 	private TourService service;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "booking_id", nullable = false, unique = true)
+	@JoinColumn(name = "booking_id", unique = true)
 	private Booking booking;
 
 	@PrePersist

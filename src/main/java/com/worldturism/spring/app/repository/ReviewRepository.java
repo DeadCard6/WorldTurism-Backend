@@ -1,0 +1,14 @@
+package com.worldturism.spring.app.repository;
+
+import com.worldturism.spring.app.model.Review;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ReviewRepository extends JpaRepository<Review, Long> {
+
+	boolean existsByUserIdAndServiceId(Long userId, Long serviceId);
+
+	List<Review> findByServiceIdOrderByCreatedAtDesc(Long serviceId);
+
+	List<Review> findByUserIdOrderByCreatedAtDesc(Long userId);
+}
