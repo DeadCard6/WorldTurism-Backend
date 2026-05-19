@@ -37,6 +37,7 @@ public class AuthController {
 	public AuthResponse login(@Valid @RequestBody LoginRequest request) {
 		return authService.login(request);
 	}
+	
 
 	@GetMapping("/me")
 	@Operation(summary = "Consultar usuario actual", description = "Devuelve el usuario asociado al token JWT enviado.")

@@ -77,18 +77,25 @@ public class AuthService {
 	}
 
 	private ProviderProfile buildProviderProfile(ProviderRegisterRequest request, AppUser user) {
-		if (request == null || isBlank(request.businessName())) {
-			throw new IllegalArgumentException("El registro de prestador requiere el nombre del negocio.");
+		ProviderProfile profile = new ProviderProfile();
+
+	
+		if (request == null) {
+			profile.setBusinessName(user.getName() != null ? user.getName() : "");
+		} else {
+			if (isBlank(request.businessName())) {
+				profile.setBusinessName(user.getName() != null ? user.getName() : "");
+			} else {
+				profile.setBusinessName(request.businessName());
+			}
+			profile.setTaxId(request.taxId());
+			profile.setDescription(request.description());
+			profile.setAddress(request.address());
+			profile.setCategory(request.category());
+			profile.setWebsite(request.website());
+			profile.setLogoUrl(request.logoUrl());
 		}
 
-		ProviderProfile profile = new ProviderProfile();
-		profile.setBusinessName(request.businessName());
-		profile.setTaxId(request.taxId());
-		profile.setDescription(request.description());
-		profile.setAddress(request.address());
-		profile.setCategory(request.category());
-		profile.setWebsite(request.website());
-		profile.setLogoUrl(request.logoUrl());
 		profile.setUser(user);
 		return profile;
 	}
