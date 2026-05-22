@@ -1,7 +1,6 @@
 package com.worldturism.spring.app.view.dto;
 
 import com.worldturism.spring.app.model.Role;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,8 +22,5 @@ public record RegisterRequest(
 		String phoneNumber,
 
 		@NotNull(message = "El rol es obligatorio")
-		Role role,
-
-		@Valid
-		ProviderRegisterRequest provider) {
+		Role role) {
 }

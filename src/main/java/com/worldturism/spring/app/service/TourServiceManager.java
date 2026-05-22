@@ -62,7 +62,7 @@ public class TourServiceManager {
 			throw new IllegalArgumentException("Solo los prestadores pueden registrar servicios.");
 		}
 
-		return providerProfileRepository.findByUserId(user.getId())
+		return providerProfileRepository.findFirstByUserIdOrderByIdAsc(user.getId())
 				.orElseThrow(() -> new IllegalArgumentException("El usuario no tiene perfil de prestador."));
 	}
 }

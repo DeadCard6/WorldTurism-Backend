@@ -1,6 +1,8 @@
 package com.worldturism.spring.app.view.dto;
 
 import com.worldturism.spring.app.model.ProviderProfile;
+import java.util.ArrayList;
+import java.util.List;
 
 public record ProviderResponse(
 		Long id,
@@ -8,9 +10,11 @@ public record ProviderResponse(
 		String taxId,
 		String description,
 		String address,
+		String city,
 		String category,
 		String website,
-		String logoUrl) {
+		String logoUrl,
+		List<String> imageUrls) {
 
 	public static ProviderResponse from(ProviderProfile providerProfile) {
 		if (providerProfile == null) {
@@ -23,8 +27,10 @@ public record ProviderResponse(
 				providerProfile.getTaxId(),
 				providerProfile.getDescription(),
 				providerProfile.getAddress(),
+				providerProfile.getCity(),
 				providerProfile.getCategory(),
 				providerProfile.getWebsite(),
-				providerProfile.getLogoUrl());
+				providerProfile.getLogoUrl(),
+				new ArrayList<>(providerProfile.getImageUrls()));
 	}
 }

@@ -4,6 +4,7 @@ import com.worldturism.spring.app.repository.UserRepository;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -40,6 +41,8 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
 						.requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+						.requestMatchers("/uploads/**").permitAll()
+						.requestMatchers(HttpMethod.GET, "/api/services/**", "/api/businesses/**").permitAll()
 						.requestMatchers("/api/admin/**").hasRole("ADMIN")
 						.requestMatchers("/api/provider/**").hasAnyRole("PROVIDER", "ADMIN")
 						.anyRequest().authenticated())

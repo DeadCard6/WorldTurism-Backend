@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -48,9 +47,6 @@ public class AppUser implements UserDetails {
 	@Column(nullable = false, columnDefinition = "boolean default true")
 	private Boolean isActive = true;
 
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private ProviderProfile providerProfile;
-
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Itinerary> itineraries = new ArrayList<>();
 
@@ -62,6 +58,9 @@ public class AppUser implements UserDetails {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<SavedService> savedServices = new ArrayList<>();
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ProviderProfile> providerProfiles = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Conversation> conversationsAsUser = new ArrayList<>();
@@ -181,17 +180,6 @@ public class AppUser implements UserDetails {
 		this.isActive = isActive;
 	}
 
-	public ProviderProfile getProviderProfile() {
-		return providerProfile;
-	}
-
-	public void setProviderProfile(ProviderProfile providerProfile) {
-		this.providerProfile = providerProfile;
-		if (providerProfile != null) {
-			providerProfile.setUser(this);
-		}
-	}
-
 	public List<Itinerary> getItineraries() {
 		return itineraries;
 	}
@@ -222,6 +210,14 @@ public class AppUser implements UserDetails {
 
 	public void setSavedServices(List<SavedService> savedServices) {
 		this.savedServices = savedServices;
+	}
+
+	public List<ProviderProfile> getProviderProfiles() {
+		return providerProfiles;
+	}
+
+	public void setProviderProfiles(List<ProviderProfile> providerProfiles) {
+		this.providerProfiles = providerProfiles;
 	}
 
 	public List<Conversation> getConversationsAsUser() {

@@ -1,14 +1,17 @@
 package com.worldturism.spring.app.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,9 @@ public class ProviderProfile {
 	@Column(length = 200)
 	private String address;
 
+	@Column(length = 100)
+	private String city;
+
 	@Column(length = 80)
 	private String category;
 
@@ -42,8 +48,14 @@ public class ProviderProfile {
 	@Column(length = 300)
 	private String logoUrl;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false, unique = true)
+	@ElementCollection
+	@CollectionTable(name = "provider_profile_images", joinColumns = @JoinColumn(name = "provider_profile_id"))
+	@OrderColumn(name = "image_order")
+	@Column(name = "image_url", length = 300, nullable = false)
+	private List<String> imageUrls = new ArrayList<>();
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
 	private AppUser user;
 
 	@OneToMany(mappedBy = "provider", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
@@ -89,6 +101,14 @@ public class ProviderProfile {
 		this.address = address;
 	}
 
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
 	public String getCategory() {
 		return category;
 	}
@@ -111,6 +131,14 @@ public class ProviderProfile {
 
 	public void setLogoUrl(String logoUrl) {
 		this.logoUrl = logoUrl;
+	}
+
+	public List<String> getImageUrls() {
+		return imageUrls;
+	}
+
+	public void setImageUrls(List<String> imageUrls) {
+		this.imageUrls = imageUrls;
 	}
 
 	public AppUser getUser() {

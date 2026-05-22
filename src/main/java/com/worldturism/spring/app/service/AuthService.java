@@ -1,13 +1,11 @@
 package com.worldturism.spring.app.service;
 
 import com.worldturism.spring.app.model.AppUser;
-import com.worldturism.spring.app.model.ProviderProfile;
 import com.worldturism.spring.app.model.Role;
 import com.worldturism.spring.app.repository.UserRepository;
 import com.worldturism.spring.app.security.JwtService;
 import com.worldturism.spring.app.view.dto.AuthResponse;
 import com.worldturism.spring.app.view.dto.LoginRequest;
-import com.worldturism.spring.app.view.dto.ProviderRegisterRequest;
 import com.worldturism.spring.app.view.dto.RegisterRequest;
 import com.worldturism.spring.app.view.dto.UserResponse;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -52,10 +50,6 @@ public class AuthService {
 		user.setPhoneNumber(request.phoneNumber());
 		user.setRole(request.role());
 
-		if (request.role() == Role.PROVIDER) {
-			user.setProviderProfile(buildProviderProfile(request.provider(), user));
-		}
-
 		AppUser savedUser = userRepository.save(user);
 		return buildAuthResponse(savedUser);
 	}
@@ -76,36 +70,8 @@ public class AuthService {
 		return buildAuthResponse(user);
 	}
 
-	private ProviderProfile buildProviderProfile(ProviderRegisterRequest request, AppUser user) {
-		ProviderProfile profile = new ProviderProfile();
-
-	
-		if (request == null) {
-			profile.setBusinessName(user.getName() != null ? user.getName() : "");
-		} else {
-			if (isBlank(request.businessName())) {
-				profile.setBusinessName(user.getName() != null ? user.getName() : "");
-			} else {
-				profile.setBusinessName(request.businessName());
-			}
-			profile.setTaxId(request.taxId());
-			profile.setDescription(request.description());
-			profile.setAddress(request.address());
-			profile.setCategory(request.category());
-			profile.setWebsite(request.website());
-			profile.setLogoUrl(request.logoUrl());
-		}
-
-		profile.setUser(user);
-		return profile;
-	}
-
 	private AuthResponse buildAuthResponse(AppUser user) {
 		String token = jwtService.generateToken(user);
 		return new AuthResponse(token, "Bearer", UserResponse.from(user));
-	}
-
-	private boolean isBlank(String value) {
-		return value == null || value.trim().isEmpty();
 	}
 }

@@ -4,6 +4,7 @@ target/
 *.db-shm
 *.db-wal
 *.log
+uploads/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

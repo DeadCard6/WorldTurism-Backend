@@ -2,6 +2,7 @@ package com.worldturism.spring.app.view.dto;
 
 import com.worldturism.spring.app.model.AppUser;
 import com.worldturism.spring.app.model.Role;
+import java.time.Instant;
 
 public record UserResponse(
 		Long id,
@@ -9,7 +10,9 @@ public record UserResponse(
 		String email,
 		String phoneNumber,
 		Role role,
-		ProviderResponse provider) {
+		Boolean isActive,
+		Instant createdAt,
+		Instant updatedAt) {
 
 	public static UserResponse from(AppUser user) {
 		return new UserResponse(
@@ -18,6 +21,8 @@ public record UserResponse(
 				user.getEmail(),
 				user.getPhoneNumber(),
 				user.getRole(),
-				ProviderResponse.from(user.getProviderProfile()));
+				user.getIsActive(),
+				user.getCreatedAt(),
+				user.getUpdatedAt());
 	}
 }
