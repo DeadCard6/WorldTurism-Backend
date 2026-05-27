@@ -37,6 +37,7 @@ public class ProviderBusinessManager {
 		profile.setAddress(request.location());
 		profile.setCity(request.city());
 		profile.setCategory(request.category());
+		profile.setPrice(normalizePrice(request.price()));
 		profile.setWebsite(request.website());
 		profile.setLogoUrl(imageUrls.get(0));
 		profile.setImageUrls(imageUrls);
@@ -56,6 +57,33 @@ public class ProviderBusinessManager {
 	}
 
 	@Transactional
+	public ProviderResponse update(AppUser user, Long businessId, ProviderBusinessRequest request, List<MultipartFile> images) {
+		validateProvider(user);
+
+		ProviderProfile profile = providerProfileRepository.findByIdAndUserId(businessId, user.getId())
+				.orElseThrow(() -> new IllegalArgumentException("No existe un negocio con ese id para este proveedor."));
+
+		profile.setBusinessName(request.businessName());
+		profile.setTaxId(request.taxId());
+		profile.setDescription(request.description());
+		profile.setAddress(request.location());
+		profile.setCity(request.city());
+		profile.setCategory(request.category());
+		profile.setPrice(normalizePrice(request.price()));
+		profile.setWebsite(request.website());
+
+		if (images != null && !images.isEmpty()) {
+			List<String> oldImageUrls = List.copyOf(profile.getImageUrls());
+			List<String> imageUrls = imageStorageService.storeProviderBusinessImages(images);
+			profile.setLogoUrl(imageUrls.get(0));
+			profile.setImageUrls(imageUrls);
+			imageStorageService.deleteStoredImages(oldImageUrls);
+		}
+
+		return ProviderResponse.from(providerProfileRepository.save(profile));
+	}
+
+	@Transactional
 	public void delete(AppUser user, Long businessId) {
 		validateProvider(user);
 
@@ -64,6 +92,18 @@ public class ProviderBusinessManager {
 
 		imageStorageService.deleteStoredImages(providerProfile.getImageUrls());
 		providerProfileRepository.delete(providerProfile);
+	}
+
+	private String normalizePrice(String price) {
+		if (price == null || price.isBlank()) {
+			throw new IllegalArgumentException("El precio es obligatorio.");
+		}
+
+		String normalizedPrice = price.trim();
+		if (!normalizedPrice.matches("\\d+(?:[.,]\\d+)*")) {
+			throw new IllegalArgumentException("El precio debe tener un formato valido.");
+		}
+		return normalizedPrice;
 	}
 
 	private void validateProvider(AppUser user) {

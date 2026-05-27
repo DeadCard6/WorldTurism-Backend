@@ -42,6 +42,9 @@ public class ProviderProfile {
 	@Column(length = 80)
 	private String category;
 
+	@Column(length = 30)
+	private String price;
+
 	@Column(length = 200)
 	private String website;
 
@@ -115,6 +118,14 @@ public class ProviderProfile {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
 	}
 
 	public String getWebsite() {

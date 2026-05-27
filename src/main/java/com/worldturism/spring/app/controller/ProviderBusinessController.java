@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -47,6 +48,16 @@ public class ProviderBusinessController {
 	@Operation(summary = "Listar mis negocios", description = "Devuelve los negocios del proveedor autenticado.")
 	public List<ProviderResponse> listMyBusinesses(@AuthenticationPrincipal AppUser user) {
 		return providerBusinessManager.listMyBusinesses(user);
+	}
+
+	@PutMapping(value = "/{businessId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@Operation(summary = "Actualizar negocio", description = "Permite al proveedor autenticado actualizar uno de sus negocios.")
+	public ProviderResponse update(
+			@AuthenticationPrincipal AppUser user,
+			@PathVariable Long businessId,
+			@Valid @ModelAttribute ProviderBusinessRequest request,
+			@RequestPart(value = "images", required = false) List<MultipartFile> images) {
+		return providerBusinessManager.update(user, businessId, request, images);
 	}
 
 	@DeleteMapping("/{businessId}")

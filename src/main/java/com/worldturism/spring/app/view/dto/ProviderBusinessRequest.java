@@ -26,6 +26,9 @@ public record ProviderBusinessRequest(
 		@Size(max = 80, message = "La categoria no puede superar 80 caracteres")
 		String category,
 
+		@NotBlank(message = "El precio es obligatorio")
+		String price,
+
 		@Size(max = 200, message = "El sitio web no puede superar 200 caracteres")
 		String website) {
 }

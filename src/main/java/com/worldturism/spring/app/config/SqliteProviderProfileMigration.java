@@ -22,6 +22,9 @@ public class SqliteProviderProfileMigration implements ApplicationRunner {
 			return;
 		}
 
+		boolean hasPriceColumn = hasColumn("provider_profiles", "price");
+		String priceSelection = hasPriceColumn ? "coalesce(price, '0')" : "'0'";
+
 		jdbcTemplate.execute("PRAGMA foreign_keys=OFF");
 		try {
 			jdbcTemplate.execute("""
@@ -33,6 +36,7 @@ public class SqliteProviderProfileMigration implements ApplicationRunner {
 						city varchar(100),
 						description varchar(1000),
 						logo_url varchar(300),
+						price varchar(30) not null default '0',
 						tax_id varchar(60),
 						user_id bigint not null,
 						website varchar(200),
@@ -48,6 +52,7 @@ public class SqliteProviderProfileMigration implements ApplicationRunner {
 						city,
 						description,
 						logo_url,
+						price,
 						tax_id,
 						user_id,
 						website
@@ -60,15 +65,26 @@ public class SqliteProviderProfileMigration implements ApplicationRunner {
 						city,
 						description,
 						logo_url,
+						%s,
 						tax_id,
 						user_id,
 						website
 					FROM provider_profiles
-					""");
+					""".formatted(priceSelection));
 			jdbcTemplate.execute("DROP TABLE provider_profiles");
 			jdbcTemplate.execute("ALTER TABLE provider_profiles_new RENAME TO provider_profiles");
 		} finally {
 			jdbcTemplate.execute("PRAGMA foreign_keys=ON");
+		}
+	}
+
+	private boolean hasColumn(String tableName, String columnName) {
+		try {
+			return jdbcTemplate.queryForList("PRAGMA table_info(\"" + escapeIdentifier(tableName) + "\")")
+					.stream()
+					.anyMatch(column -> columnName.equals(column.get("name")));
+		} catch (RuntimeException exception) {
+			return false;
 		}
 	}
 
