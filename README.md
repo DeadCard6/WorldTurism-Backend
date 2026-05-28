@@ -3,7 +3,7 @@
 
 # README — Backend (Spring Boot + SQLite)
 
-```md
+
 # World Tourism Solutions — Backend
 
 Backend del proyecto World Tourism Solutions desarrollado con Java Spring Boot.
