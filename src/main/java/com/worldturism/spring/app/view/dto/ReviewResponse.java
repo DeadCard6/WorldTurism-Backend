@@ -10,8 +10,8 @@ public record ReviewResponse(
 		Instant createdAt,
 		Long userId,
 		String userName,
-		Long serviceId,
-		String serviceTitle) {
+		Long businessId,
+		String businessName) {
 
 	public static ReviewResponse from(Review review) {
 		return new ReviewResponse(
@@ -21,7 +21,7 @@ public record ReviewResponse(
 				review.getCreatedAt(),
 				review.getUser().getId(),
 				review.getUser().getName(),
-				review.getService().getId(),
-				review.getService().getTitle());
+				review.getProviderBusiness().getId(),
+				review.getProviderBusiness().getBusinessName());
 	}
 }

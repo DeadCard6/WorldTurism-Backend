@@ -51,8 +51,12 @@ public class Booking {
 	private AppUser user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "service_id", nullable = false)
+	@JoinColumn(name = "service_id")
 	private TourService service;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "provider_profile_id")
+	private ProviderProfile providerBusiness;
 
 	@OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Review review;
@@ -146,6 +150,14 @@ public class Booking {
 
 	public void setService(TourService service) {
 		this.service = service;
+	}
+
+	public ProviderProfile getProviderBusiness() {
+		return providerBusiness;
+	}
+
+	public void setProviderBusiness(ProviderProfile providerBusiness) {
+		this.providerBusiness = providerBusiness;
 	}
 
 	public Review getReview() {

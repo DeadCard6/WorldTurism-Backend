@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record ReviewRequest(
-		@NotNull(message = "El servicio es obligatorio")
-		Long serviceId,
+		@NotNull(message = "El negocio es obligatorio")
+		Long businessId,
 
 		@NotNull(message = "La calificacion es obligatoria")
 		@Min(value = 1, message = "La calificacion minima es 1")

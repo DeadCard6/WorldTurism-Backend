@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/reviews")
-@Tag(name = "Resenas", description = "Creacion y consulta de resenas de servicios adquiridos.")
+@Tag(name = "Resenas", description = "Creacion y consulta de resenas de negocios reservados.")
 public class ReviewController {
 
 	private final ReviewService reviewService;
@@ -31,7 +31,7 @@ public class ReviewController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	@Operation(summary = "Crear resena", description = "Permite al usuario dejar una resena sobre un servicio adquirido.")
+	@Operation(summary = "Crear resena", description = "Permite al usuario dejar una resena sobre un negocio reservado y aprobado.")
 	public ReviewResponse create(
 			@AuthenticationPrincipal AppUser user,
 			@Valid @RequestBody ReviewRequest request) {
@@ -44,9 +44,9 @@ public class ReviewController {
 		return reviewService.listMyReviews(user);
 	}
 
-	@GetMapping("/services/{serviceId}")
-	@Operation(summary = "Listar resenas de un servicio", description = "Devuelve las resenas asociadas a un servicio.")
-	public List<ReviewResponse> listByService(@PathVariable Long serviceId) {
-		return reviewService.listByService(serviceId);
+	@GetMapping("/businesses/{businessId}")
+	@Operation(summary = "Listar resenas de un negocio", description = "Devuelve las resenas asociadas a un negocio.")
+	public List<ReviewResponse> listByBusiness(@PathVariable Long businessId) {
+		return reviewService.listByBusiness(businessId);
 	}
 }

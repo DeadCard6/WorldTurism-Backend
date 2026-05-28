@@ -19,7 +19,7 @@ import java.time.Instant;
 		name = "reviews",
 		uniqueConstraints = {
 				@UniqueConstraint(name = "uq_review_booking", columnNames = "booking_id"),
-				@UniqueConstraint(name = "uq_review_user_service", columnNames = {"user_id", "service_id"})
+				@UniqueConstraint(name = "uq_review_user_business", columnNames = {"user_id", "provider_profile_id"})
 		})
 public class Review {
 
@@ -41,8 +41,12 @@ public class Review {
 	private AppUser user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "service_id", nullable = false)
+	@JoinColumn(name = "service_id")
 	private TourService service;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "provider_profile_id")
+	private ProviderProfile providerBusiness;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "booking_id", unique = true)
@@ -101,6 +105,14 @@ public class Review {
 
 	public void setService(TourService service) {
 		this.service = service;
+	}
+
+	public ProviderProfile getProviderBusiness() {
+		return providerBusiness;
+	}
+
+	public void setProviderBusiness(ProviderProfile providerBusiness) {
+		this.providerBusiness = providerBusiness;
 	}
 
 	public Booking getBooking() {

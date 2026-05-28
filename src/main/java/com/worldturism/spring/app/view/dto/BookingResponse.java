@@ -13,10 +13,10 @@ public record BookingResponse(
 		BigDecimal totalPrice,
 		BookingStatus status,
 		Instant createdAt,
-		Long serviceId,
-		String serviceTitle,
-		Long providerId,
-		String providerBusinessName) {
+		Long businessId,
+		String businessName,
+		String businessPrice,
+		Long providerUserId) {
 
 	public static BookingResponse from(Booking booking) {
 		return new BookingResponse(
@@ -26,9 +26,9 @@ public record BookingResponse(
 				booking.getTotalPrice(),
 				booking.getStatus(),
 				booking.getCreatedAt(),
-				booking.getService().getId(),
-				booking.getService().getTitle(),
-				booking.getService().getProvider().getId(),
-				booking.getService().getProvider().getBusinessName());
+				booking.getProviderBusiness().getId(),
+				booking.getProviderBusiness().getBusinessName(),
+				booking.getProviderBusiness().getPrice(),
+				booking.getProviderBusiness().getUser().getId());
 	}
 }

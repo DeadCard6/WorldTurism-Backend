@@ -13,6 +13,8 @@ public record ProviderResponse(
 		String city,
 		String category,
 		String price,
+		Float avgRating,
+		Integer totalReviews,
 		String website,
 		String logoUrl,
 		List<String> imageUrls) {
@@ -31,6 +33,8 @@ public record ProviderResponse(
 				providerProfile.getCity(),
 				providerProfile.getCategory(),
 				providerProfile.getPrice(),
+				providerProfile.getAvgRating(),
+				providerProfile.getTotalReviews(),
 				providerProfile.getWebsite(),
 				providerProfile.getLogoUrl(),
 				new ArrayList<>(providerProfile.getImageUrls()));

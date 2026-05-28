@@ -45,6 +45,10 @@ public class ProviderProfile {
 	@Column(length = 30)
 	private String price;
 
+	private Float avgRating = 0.0f;
+
+	private Integer totalReviews = 0;
+
 	@Column(length = 200)
 	private String website;
 
@@ -63,6 +67,12 @@ public class ProviderProfile {
 
 	@OneToMany(mappedBy = "provider", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
 	private List<TourService> services = new ArrayList<>();
+
+	@OneToMany(mappedBy = "providerBusiness", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+	private List<Booking> bookings = new ArrayList<>();
+
+	@OneToMany(mappedBy = "providerBusiness", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+	private List<Review> reviews = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -128,6 +138,22 @@ public class ProviderProfile {
 		this.price = price;
 	}
 
+	public Float getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(Float avgRating) {
+		this.avgRating = avgRating;
+	}
+
+	public Integer getTotalReviews() {
+		return totalReviews;
+	}
+
+	public void setTotalReviews(Integer totalReviews) {
+		this.totalReviews = totalReviews;
+	}
+
 	public String getWebsite() {
 		return website;
 	}
@@ -166,5 +192,21 @@ public class ProviderProfile {
 
 	public void setServices(List<TourService> services) {
 		this.services = services;
+	}
+
+	public List<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(List<Booking> bookings) {
+		this.bookings = bookings;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 }
