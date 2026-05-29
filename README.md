@@ -20,7 +20,7 @@ El backend fue desarrollado para soportar:
 - Gestión de usuarios.
 - Gestión de roles.
 - CRUD de servicios turísticos.
-- Reservas.
+- Reservas ,reseñas e itinerario.
 - Administración básica del sistema.
 
 ---
@@ -67,7 +67,8 @@ Frontend React → Backend Spring Boot → SQLite
 
 ## Usuario Turista
 - Consultar servicios turísticos.
-- Realizar reservas.
+- Realizar reservas, reseñas.
+- Generacion de itinerario segun reserva
 - Editar perfil.
 
 ## Asesor
@@ -163,16 +164,14 @@ Actualmente soporta las funcionalidades principales necesarias para:
 - Registro e inicio de sesión.
 - Gestión de servicios.
 - Reservas.
+- Reseñas , generacion de itinerario
 - Manejo de roles.
 
 Debido al tiempo y alcance del proyecto académico, algunas funcionalidades planteadas inicialmente en los requerimientos aún se encuentran pendientes para futuras iteraciones.
 
 ## Funcionalidades futuras
-
 Integración con WhatsApp API.
-Itinerarios automáticos.
-Sistema de reseñas.
-Notificaciones por correo.
+Maenejo de mapa ubicacion con Api
 Dashboard administrativo completo.
 
 # Integrantes
